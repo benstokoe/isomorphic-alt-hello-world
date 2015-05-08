@@ -10,13 +10,15 @@ app.set('view engine', 'jade');
 app.set('views', path.join(__dirname, 'templates'));
 app.use('/dist', express.static(path.join(__dirname, 'dist')));
 
-var App = React.createFactory(require('./js/components/App.react'));
+var Router = require('react-router');
+var routes = require('./js/routes.js');
 
-app.get('/', function(req, res) {
-    var markup = React.renderToString(App());
-
-    
-    res.render('index', { html: markup });
+app.use(function(req, res) {
+    Router.run(routes, req.url, function (Handler) {
+        var handler = React.createElement(Handler);
+        var markup = React.renderToString(handler);
+        res.render('index', { html: markup });
+    });
 });
 
 app.listen(3000);
