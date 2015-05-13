@@ -1,6 +1,10 @@
 import routes from './routes';
 import Router from 'react-router';
+import {HistoryLocation} from 'react-router';
 
-router = Router.create({
+const router = Router.create({
+    location: HistoryLocation,
     routes: routes
 });
+
+export default router;
